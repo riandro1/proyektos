@@ -1,0 +1,92 @@
+
+<html>
+<head>
+  <title>Ozma Kappa Voucher</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <style type="text/css">
+  .helper {
+      display: inline-block;
+      height: 100%;
+      vertical-align: middle;
+    }
+    .image-caption {
+      height: 100px;
+    }
+    .star {
+      color: yellow;
+    }
+    
+    .card {
+      height: 500px;
+    }
+    .card-image {
+      max-height: 300px;
+      max-width: 350px;
+      width: auto;
+    }
+    .image-display {
+      height: 300px;
+      width: auto;
+    }
+
+    
+</style>
+</head>
+
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <h1 class="navbar-brand"><a href="{{ url_for('home') }}">Voucher Ozma Kappa</a></h1>
+      </div>
+      <ul class="nav navbar-nav navbar-right">
+       {% if not session.username %}  
+       <li><a href = "{{ url_for('register') }}"><span class="glyphicon glyphicon-user"></span> Register</a></li>
+       <li><a href = "{{ url_for('login') }}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li> 
+       {% elif session.username == "admin@voucher.com" %}
+	   <li><a href="{{ url_for('list2') }}"><span class="glyphicon glyphicon-th-list"></span> List</a></li>
+       <li><a href="{{ url_for('addvoucher') }}"><span class="glyphicon glyphicon-plus-sign"></span> Add voucher</a></li>
+       <li><a href="{{ url_for('logout') }}"><span class="glyphicon glyphicon-remove"></span> Logout</a></li>
+       {% else %}
+	   <li><a href="{{ url_for('list') }}"><span class="glyphicon glyphicon-th-list"></span> List Voucher</a></li>
+       <li><a href="{{ url_for('order') }}"><span class="glyphicon glyphicon-shopping-cart"></span> Cart</a></li>
+       <li><a href="{{ url_for('logout') }}"><span class="glyphicon glyphicon-remove"></span> Logout</a></li>
+       {% endif %}      
+     </ul>
+   </div>
+ </nav>
+
+  <!-- Section to add voucher -->
+  <div class="container">
+    <h3>Add voucher!</h3>
+    <form method="post" action="{{ url_for('tambahvoucher') }}">
+      <div class="form-group">
+        <label for="postName">Nama voucher :</label>
+        <input type="text" class="form-control" id="postName" name="postName">
+      </div>
+      <div class="form-group">
+        <label for="postDescription">Penjelasan :</label>
+        <textarea class="form-control" rows="5" id="postDescription" name="postDescription"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="postImageUrl">Gambar/Foto (URL):</label>
+        <textarea class="form-control" rows="5" id="postImageUrl" name="postImageUrl"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="postStar">Tingkat Favorit (1-5):</label>
+        <input type="text" class="form-control" id="postStar" name="postStar">
+      </div>
+      <div class="form-group">
+        <label for="postPrice">Harga voucher:</label>
+        <input type="text" class="form-control" id="postPrice" name="postPrice">
+      </div>
+      <button type="submit" class="btn btn-default">Save</button>
+    </form>
+  </div>
+</body>
+</html>

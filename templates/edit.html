@@ -1,0 +1,167 @@
+
+<html>
+<head>
+  <title>GoFlorist - Edit voucher</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <style type="text/css">
+    .card {
+      height: 500px;
+    }
+    .card-image {
+      max-height: 300px;
+      max-width: 350px;
+      width: auto;
+    }
+    .image-display {
+      height: 300px;
+      width: auto;
+    }
+
+    .helper {
+      display: inline-block;
+      height: 100%;
+      vertical-align: middle;
+    }
+    .image-caption {
+      height: 100px;
+    }
+    .heart-empty {
+      color: pink;
+    }
+	.col-p h5{
+	color:#000;
+	font-size:2.2em;
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;	
+}
+.col-p p{
+	color:#999;
+	font-size:1em;
+    line-height: 1.8em;
+    margin: 0.5em 0 1em;	
+}
+.footer{
+	background:#2E2E2E;
+	padding:2em 0;
+}
+.footer-grid h3{
+	font-size:2em;
+	color:#fff;
+	margin:0 0 1.5em;
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;	
+}
+.footer-grid p{
+	font-size:14px;
+	color:#999;
+	line-height:1.8em;
+	margin:0;
+}
+.footer-grid p span{
+	display:block;
+	margin:1em 0 0;
+}
+.footer-grid ul li{
+	list-style-type:none;
+	color:#999;
+	font-size:1em;
+}
+.foot-mid {
+    padding: 1em 0;
+    margin: 1em 0;
+    display: block;
+    border-bottom: 1px solid rgba(193, 189, 189, 0.44);
+    border-top: 1px solid rgba(193, 189, 189, 0.44);
+}
+.footer-grid ul li i{
+	color: #999;
+    margin-right: 1em;
+}
+.footer-grid ul li span{
+	display:block;
+	margin-left: 3em;
+}
+.copy-right p{
+	text-align:center;
+	color:black;
+	font-size:1em;
+	line-height:1.8em;
+}
+.copy-right {
+    padding-top: 2em;
+}
+.navbar-header h1 a {
+	color:#01CFCF;
+    text-decoration: none;
+	font-weight: bold;
+	font-size: 30px;
+}
+.navbar-header h1 a span{
+    color: #fff;
+}
+.navbar-header h1 a span:hover {
+	color:#FF7000;
+}
+</style>
+</head>
+
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <h1 class="navbar-brand"><a href="{{ url_for('home') }}">Go<span>Florist</span></a></h1>
+      </div>
+      <ul class="nav navbar-nav navbar-right">
+       {% if not session.username %}  
+       <li><a href = "{{ url_for('register') }}"><span class="glyphicon glyphicon-user"></span> Register</a></li>
+       <li><a href = "{{ url_for('login') }}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li> 
+       {% elif session.username == "admin@voucher.com" %}
+	   <li><a href="{{ url_for('listadmin') }}"><span class="glyphicon glyphicon-asterisk"></span> List</a></li>
+       <li><a href="{{ url_for('addvoucher') }}"><span class="glyphicon glyphicon-pencil"></span> Add voucher</a></li>
+       <li><a href="{{ url_for('logout') }}"><span class="glyphicon glyphicon-remove"></span> Logout</a></li>
+       {% else %}
+	   <li><a href="{{ url_for('list') }}"><span class="glyphicon glyphicon-usd"></span> Order</a></li>
+       <li><a href="{{ url_for('order') }}"><span class="glyphicon glyphicon-shopping-cart"></span> MyCart</a></li>
+       <li><a href="{{ url_for('logout') }}"><span class="glyphicon glyphicon-remove"></span> Logout</a></li>
+       {% endif %}      
+     </ul>
+   </div>
+ </nav>
+
+  <!-- Section to edit voucher -->
+  <div class="container">
+	{% for row in rows %}
+    <h1>Edit voucher!</h1>
+    <form method="post" action="{{ url_for('editvoucher') }}">
+      <div class="form-group">
+        <label for="postName">Name:</label>
+        <input type="text" class="form-control" id="postName" name="postName" value="{{row['name']}}">
+      </div>
+      <div class="form-group">
+        <label for="postDescription">Description:</label>
+        <input type="text" class="form-control" rows="5" id="postDescription" name="postDescription" value="{{row['description']}}">
+      </div>
+      <div class="form-group">
+        <label for="postImageUrl">Image URL:</label>
+        <input type="text" class="form-control" rows="5" id="postImageUrl" name="postImageUrl" value="{{row['imageUrl']}}">
+      </div>
+      <div class="form-group">
+        <label for="postStar">Star (1-5):</label>
+        <input type="text" class="form-control" id="postStar" name="postStar" value="{{row['star']}}">
+      </div>
+      <div class="form-group">
+        <label for="postPrice">Price (in Rupiah):</label>
+        <input type="text" class="form-control" id="postPrice" name="postPrice" value="{{row['price']}}">
+      </div>
+	  <input type='hidden' name="postvoucherId" id="postvoucherId" value="{{row['voucherId']}}">
+      <button type="submit" class="btn btn-default">Save</button>
+    </form>
+	{% endfor %}
+  </div>
+</body>
+</html>

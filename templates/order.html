@@ -1,0 +1,111 @@
+
+<html>
+<head>
+  <title>Ozma Kappa Voucher</title>
+<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <style type="text/css">
+    .card {
+      height: 500px;
+    }
+    .card-image {
+      max-height: 300px;
+      max-width: 350px;
+      width: auto;
+    }
+    .image-display {
+      height: 300px;
+      width: auto;
+    }
+
+    .helper {
+      display: inline-block;
+      height: 100%;
+      vertical-align: middle;
+    }
+    .image-caption {
+      height: 100px;
+    }
+    .star {
+      color: yellow;
+    }
+
+</style>
+  </head>
+
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <h1 class="navbar-brand"><a href="{{ url_for('home') }}">Voucher Ozma Kappa</a></h1>
+      </div>
+      <ul class="nav navbar-nav navbar-right">
+       {% if not session.username %}  
+       <li><a href = "{{ url_for('register') }}"><span class="glyphicon glyphicon-user"></span> Register</a></li>
+       <li><a href = "{{ url_for('login') }}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li> 
+       {% elif session.username == "admin@voucher.com" %}
+	   <li><a href="{{ url_for('list2') }}"><span class="glyphicon glyphicon-th-list"></span> List</a></li>
+       <li><a href="{{ url_for('addvoucher') }}"><span class="glyphicon glyphicon-pencil"></span> Add voucher</a></li>
+       <li><a href="{{ url_for('logout') }}"><span class="glyphicon glyphicon-remove"></span> Logout</a></li>
+       {% else %}
+	   <li><a href="{{ url_for('list') }}"><span class="glyphicon glyphicon-th-list"></span> List Voucher</a></li>
+       <li><a href="{{ url_for('order') }}"><span class="glyphicon glyphicon-shopping-cart"></span> Cart</a></li>
+       <li><a href="{{ url_for('logout') }}"><span class="glyphicon glyphicon-remove"></span> Logout</a></li>
+       {% endif %}      
+     </ul>
+   </div>
+ </nav>
+
+<div class="container">
+{% for row2 in rows2 %}
+
+
+{% for row in rows %}
+{% if row['voucherId'] == row2['voucherId'] %}
+    <div class="row">
+                <div class="col-sm-5 image-display">
+            <center>
+              <span class="helper"></span>
+              <img src={{row['imageUrl']}} class="card-image">
+            </center>
+          </div>
+          <div class="col-sm-7">
+            <h3>{{row['name']}}</h3>
+            <h4>
+	{% for i in range(0,row['star']) %}
+                  <span class="glyphicon glyphicon-star"></span>
+            
+	{% endfor %}
+                            </h4>
+            <h4>{{row['description']}}</h4>
+            <h4>Rp. {{row['price']}}</h4>
+            <!-- Section to Cancel order -->
+            <form method="post" action="{{ url_for('deletepesanan') }}">
+              <input type="hidden" class="form-control" name="postPesananId" value={{row2['pesanId']}}>
+              <button type="submit" class="btn btn-danger">Cancel Order</button>
+            </form>
+          </div>
+    </div>
+{% endif %}
+{% endfor %}
+
+{% endfor %}
+</div>
+
+<div class="footer">
+    <div class="container">
+      <div class="footer-grids">      
+        
+          <ul>
+            <center><h5 style="color:white;">toko yang sudah berdiri sejak 1997 dan sudah sangat terpercaya ribuan pelanggan dan menjual voucher dengan harga termurah seindonesia</h5>
+          </ul></center>
+        
+    </div>
+</div>
+</div>
+</body>
+</html>
